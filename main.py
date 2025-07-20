@@ -5,13 +5,13 @@ while True:
     user_action = input("Type 'add', 'show', or 'quit': ").strip().lower()
 
     match user_action:
-        case 'add':
+        case 'add' | 'a':
             todo = input(prompt)
             todos.append(todo)
-        case 'show':
+        case 'show' | 's':
             for index, todo in enumerate(todos):
-                print(f"{index + 1}. {todo}")
-        case 'quit':
+                print(f"{index + 1}. {todo.title()}")
+        case 'quit' | 'q':
             exit(0)
         case _:
             print("Invalid input. Please try again.")
