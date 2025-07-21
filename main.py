@@ -25,7 +25,7 @@ while True:
             if index - 1 < 0 or index - 1 >= len(todos):
                 print("Index out-of-range. Please try again.")
             else:
-                todos.remove(todos[index - 1])
+                todos.pop(index - 1)
                 print(f"Todo #{index} complete.")
         case 'quit' | 'q':
             break
