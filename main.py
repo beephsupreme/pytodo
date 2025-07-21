@@ -16,8 +16,12 @@ def initialize():
     f.close()
     return todos
 
-def main():
+def save_todos(todos):
+    with open(filepath, 'w') as f:
+        json.dump(todos, f)
+    f.close()
 
+def main():
     todos = initialize()
 
     while True:
@@ -27,10 +31,8 @@ def main():
             case 'add' | 'a':
                 todo = input("Enter Todo : ")
                 todos.append(todo)
-                with open(filepath, "w") as f:
-                    json.dump(todos, f)
-                f.close()
-                print(f"Todo added.")
+                save_todos(todos)
+                print("ToDo added successfully")
             case 'show' | 's':
                 for index, todo in enumerate(todos):
                     print(f"{index + 1}. {todo.title()}")
@@ -41,9 +43,7 @@ def main():
                 else:
                     todo = input("Enter Todo : ")
                     todos[index - 1] = todo
-                    with open(filepath, "w") as f:
-                        json.dump(todos, f)
-                    f.close()
+                    save_todos(todos)
                     print(f"Todo #{index} updated.")
             case 'complete' | 'c':
                 index = int(input("Enter ToDo to complete : "))
@@ -51,9 +51,7 @@ def main():
                     print("Index out-of-range. Please try again.")
                 else:
                     todos.pop(index - 1)
-                    with open(filepath, "w") as f:
-                        json.dump(todos, f)
-                    f.close()
+                    save_todos(todos)
                     print(f"Todo #{index} complete.")
             case 'quit' | 'q':
                 break
