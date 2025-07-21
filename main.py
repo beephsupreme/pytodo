@@ -21,6 +21,13 @@ def save_todos(todos):
         json.dump(todos, f)
     f.close()
 
+def check_range(index, length):
+    if index < 0 or index >= length:
+        print("Index out-of-range. Please try again.")
+        return False
+    else:
+        return True
+
 def main():
     todos = initialize()
 
@@ -38,18 +45,14 @@ def main():
                     print(f"{index + 1}. {todo.title()}")
             case 'edit' | 'e':
                 index = int(input("Which ToDo do you want to edit? "))
-                if index - 1 < 0 or index - 1 >= len(todos):
-                    print("Index out-of-range. Please try again.")
-                else:
+                if check_range(index - 1, len(todos)):
                     todo = input("Enter Todo : ")
                     todos[index - 1] = todo
                     save_todos(todos)
                     print(f"Todo #{index} updated.")
             case 'complete' | 'c':
                 index = int(input("Enter ToDo to complete : "))
-                if index - 1 < 0 or index - 1 >= len(todos):
-                    print("Index out-of-range. Please try again.")
-                else:
+                if check_range(index - 1, len(todos)):
                     todos.pop(index - 1)
                     save_todos(todos)
                     print(f"Todo #{index} complete.")
