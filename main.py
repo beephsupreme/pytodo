@@ -3,8 +3,7 @@ import os
 
 filepath = "todo.json"
 
-def main():
-
+def initialize():
     todos = []
     # if file does not exist, create a new empty file
     if not os.path.exists(filepath):
@@ -15,6 +14,11 @@ def main():
         with open(filepath, 'r') as f:
             todos = json.load(f)
     f.close()
+    return todos
+
+def main():
+
+    todos = initialize()
 
     while True:
         user_action = input("Type '(a)dd', '(s)how', '(e)dit', (c)omplete, or '(q)uit': ").strip().lower()
