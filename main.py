@@ -1,8 +1,9 @@
 prompt = "Enter To-Do : "
-todos = []
+# todos = []
+todos = ["cook", "clean", "shop"]
 
 while True:
-    user_action = input("Type 'add', 'show', or 'quit': ").strip().lower()
+    user_action = input("Type '(a)dd', '(s)how', '(e)dit', or '(q)uit': ").strip().lower()
 
     match user_action:
         case 'add' | 'a':
@@ -11,7 +12,17 @@ while True:
         case 'show' | 's':
             for index, todo in enumerate(todos):
                 print(f"{index + 1}. {todo.title()}")
+        case 'edit' | 'e':
+            index = int(input("Enter ToDo to edit : "))
+            if index - 1 < 0 or index - 1 >= len(todos):
+                print("Index out-of-range. Please try again.")
+            else:
+                todo = input(prompt)
+                todos[index - 1] = todo
+                print(f"Todo #{index} updated.")
         case 'quit' | 'q':
-            exit(0)
+            break
         case _:
             print("Invalid input. Please try again.")
+
+print("Goodbye!")
