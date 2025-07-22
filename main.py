@@ -13,13 +13,11 @@ def initialize():
     else:
         with open(filepath, 'r') as f:
             todos = json.load(f)
-    f.close()
     return todos
 
 def save_todos(todos):
     with open(filepath, 'w') as f:
         json.dump(todos, f)
-    f.close()
 
 def check_range(index, length):
     if index < 0 or index >= length:
