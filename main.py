@@ -1,7 +1,15 @@
 import json
 import os
+from enum import Enum
 
 filepath = "todo.json"
+class UserAction(Enum):
+    ADD = "add"
+    SHOW = "show"
+    EDIT = "edit"
+    COMPLETE = "complete"
+    QUIT = "quit"
+
 
 def initialize():
     todos = []
@@ -30,34 +38,35 @@ def main():
     todos = initialize()
 
     while True:
-        user_action = input("Type '(a)dd', '(s)how', '(e)dit', (c)omplete, or '(q)uit': ").strip().lower()
-
-        match user_action:
-            case 'add' | 'a':
-                todo = input("Enter Todo : ")
-                todos.append(todo)
+        user_action = input("Enter command or 'help': ").strip().lower()
+        if 'add' in user_action:
+                todos.append(user_action[4:])
                 save_todos(todos)
-                print("ToDo added successfully")
-            case 'show' | 's':
+                print(f"\"{user_action[4:].title()}\" added to the ToDo list.")
+        elif 'show' in user_action:
                 for index, todo in enumerate(todos):
                     print(f"{index + 1}. {todo.title()}")
-            case 'edit' | 'e':
-                index = int(input("Which ToDo do you want to edit? "))
+        elif 'edit' in user_action:
+                user_action = user_action[5:]
+                tokens = user_action.split()
+                index = int(tokens[0])
+                todo = " ".join(tokens[1:])
                 if check_range(index - 1, len(todos)):
-                    todo = input("Enter Todo : ")
+                    old_todo = todos[index - 1]
                     todos[index - 1] = todo
                     save_todos(todos)
-                    print(f"Todo #{index} updated.")
-            case 'complete' | 'c':
+                    print(f"Todo #{index} changed from {old_todo.title()} to {todos[index - 1].title()}.")
+        elif 'complete' in user_action:
                 index = int(input("Enter ToDo to complete : "))
                 if check_range(index - 1, len(todos)):
                     todos.pop(index - 1)
                     save_todos(todos)
                     print(f"Todo #{index} complete.")
-            case 'quit' | 'q':
-                break
-            case _:
-                print("Invalid input. Please try again.")
+        elif 'quit' in user_action:
+            break
+        else:
+            print("Invalid input. Please try again.")
+
     print("Goodbye!")
 
 if __name__ == "__main__":
