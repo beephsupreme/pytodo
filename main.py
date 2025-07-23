@@ -1,15 +1,7 @@
 import json
 import os
-from enum import Enum
 
 filepath = "todo.json"
-class UserAction(Enum):
-    ADD = "add"
-    SHOW = "show"
-    EDIT = "edit"
-    COMPLETE = "complete"
-    QUIT = "quit"
-
 
 def initialize():
     todos = []
@@ -39,33 +31,58 @@ def main():
 
     while True:
         user_action = input("Enter command or 'help': ").strip().lower()
-        if 'add' in user_action:
-                todos.append(user_action[4:])
+        tokens = user_action.split()
+        command = tokens[0]
+
+        match command:
+            case 'add' | 'a':
+                todo = " ".join(tokens[1:])
+                todos.append(todo)
                 save_todos(todos)
-                print(f"\"{user_action[4:].title()}\" added to the ToDo list.")
-        elif 'show' in user_action:
+                print(f"\"{todo.title()}\" added to the ToDo list.")
+            case 'show' | 's':
+                if len(todos) == 0:
+                    print("The ToDo list is empty.")
+                    continue
+                print()
                 for index, todo in enumerate(todos):
                     print(f"{index + 1}. {todo.title()}")
-        elif 'edit' in user_action:
-                user_action = user_action[5:]
-                tokens = user_action.split()
-                index = int(tokens[0])
-                todo = " ".join(tokens[1:])
+                print()
+            case 'edit' | 'e':
+                if len(tokens) < 3:
+                    print("Usage: (e)dit todo# new_todo")
+                    continue
+                try:
+                    index = int(tokens[1])
+                except ValueError:
+                    print("Usage: (e)dit todo# new_todo")
+                    continue
+                todo = " ".join(tokens[2:])
                 if check_range(index - 1, len(todos)):
                     old_todo = todos[index - 1]
                     todos[index - 1] = todo
                     save_todos(todos)
-                    print(f"Todo #{index} changed from {old_todo.title()} to {todos[index - 1].title()}.")
-        elif 'complete' in user_action:
-                index = int(input("Enter ToDo to complete : "))
+                    print(f"Todo #{index} changed from \"{old_todo.title()}\" to \"{todos[index - 1].title()}\".")
+            case 'complete' | 'c':
+                if len(tokens) < 2:
+                    print("Usage: (c)omplete todo#")
+                    continue
+                try:
+                    index = int(tokens[1])
+                except ValueError:
+                    print("Usage: (c)omplete todo#")
+                    continue
                 if check_range(index - 1, len(todos)):
+                    todo = todos[index - 1]
                     todos.pop(index - 1)
                     save_todos(todos)
-                    print(f"Todo #{index} complete.")
-        elif 'quit' in user_action:
-            break
-        else:
-            print("Invalid input. Please try again.")
+                    print(f"\"#{index}. {todo.title()}\" has been removed from the ToDo list.")
+            case 'help' | 'h':
+                print("Feature coming soon!")
+            case 'quit' | 'q':
+                break
+            case _:
+                print("Invalid command. Please try again.")
 
     print("Goodbye!")
 
