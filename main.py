@@ -36,6 +36,9 @@ def main():
 
         match command:
             case 'add' | 'a':
+                if len(tokens) < 2:
+                    print("Usage: (a)dd todo#")
+                    continue
                 todo = " ".join(tokens[1:])
                 todos.append(todo)
                 save_todos(todos)
@@ -78,7 +81,16 @@ def main():
                     save_todos(todos)
                     print(f"\"#{index}. {todo.title()}\" has been removed from the ToDo list.")
             case 'help' | 'h':
-                print("Feature coming soon!")
+                print(
+                """
+                Available commands:
+                (a)dd todo
+                (s)how
+                (e)dit todo_number new_todo
+                (c)omplete todo_number
+                (h)elp: show this menu
+                (q)uit: end this program
+                """)
             case 'quit' | 'q':
                 break
             case _:
