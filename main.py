@@ -83,13 +83,13 @@ def main():
             case 'help' | 'h':
                 print(
                 """
-                Available commands:
-                (a)dd todo
-                (s)how
-                (e)dit todo_number new_todo
-                (c)omplete todo_number
-                (h)elp: show this menu
-                (q)uit: end this program
+Available commands:
+(a)dd todo
+(s)how
+(e)dit todo_number new_todo
+(c)omplete todo_number
+(h)elp: show this menu
+(q)uit: end this program
                 """)
             case 'quit' | 'q':
                 break
