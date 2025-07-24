@@ -66,6 +66,22 @@ def main():
                     todos[index - 1] = todo
                     save_todos(todos)
                     print(f"Todo #{index} changed from \"{old_todo.title()}\" to \"{todos[index - 1].title()}\".")
+            case 'insert' | 'i':
+                if len(tokens) < 3:
+                    print("Usage: (i)sert after_todo# new_todo")
+                    continue
+                try:
+                    index = int(tokens[1])
+                except ValueError:
+                    print("Usage: (i)sert after_todo# new_todo")
+                    continue
+                todo = " ".join(tokens[2:])
+                if check_range(index - 1, len(todos) - 1):
+                    previous_todo = todos[index - 1]
+                    next_todo = todos[index]
+                    todos.index(todo, previous_todo,)
+                    save_todos(todos)
+                    print(f"\"{todo}\" inserted between \"{previous_todo.title()}\" and \"{next_todo.title()}\".")
             case 'complete' | 'c':
                 if len(tokens) < 2:
                     print("Usage: (c)omplete todo#")
