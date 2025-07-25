@@ -9,7 +9,7 @@ def initialize():
     if not os.path.exists(filepath):
         with open(filepath, "w") as f:
             json.dump(todos, f)
-    # file exist so load it
+    # file exists so load it
     else:
         with open(filepath, 'r') as f:
             todos = json.load(f)
@@ -28,9 +28,7 @@ def check_range(index, length):
 
 def main():
     todos = initialize()
-    print()
-    print("Welcome to the TodosModos 1.0!")
-    print()
+    print("\nWelcome to the TodosModos 1.0!\n")
     while True:
         user_action = input("Enter command or 'help': ").strip().lower()
         tokens = user_action.split()
@@ -44,10 +42,10 @@ def main():
                 todo = " ".join(tokens[1:])
                 todos.append(todo)
                 save_todos(todos)
-                print(f"\"{todo.title()}\" added to the ToDo list.")
+                print(f"\"{todo.title()}\" added to the todo list.")
             case 'show' | 's':
                 if len(todos) == 0:
-                    print("The ToDo list is empty.")
+                    print("The todo list is empty.")
                     continue
                 print()
                 for index, todo in enumerate(todos):
@@ -70,12 +68,12 @@ def main():
                     print(f"Todo #{index} changed from \"{old_todo.title()}\" to \"{todos[index - 1].title()}\".")
             case 'insert' | 'i':
                 if len(tokens) < 3:
-                    print("Usage: (i)sert after_todo# new_todo")
+                    print("Usage: (i)nsert after_todo# new_todo")
                     continue
                 try:
                     index = int(tokens[1])
                 except ValueError:
-                    print("Usage: (i)sert after_todo# new_todo")
+                    print("Usage: (i)nsert after_todo# new_todo")
                     continue
                 todo = " ".join(tokens[2:])
                 if check_range(index - 1, len(todos) - 1):
@@ -115,7 +113,7 @@ Available commands:
             case _:
                 print("Invalid command. Please try again.")
 
-    print("Goodbye!")
+    print("\nGoodbye!\n")
 
 if __name__ == "__main__":
     main()
