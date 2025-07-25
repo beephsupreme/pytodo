@@ -28,7 +28,9 @@ def check_range(index, length):
 
 def main():
     todos = initialize()
-
+    print()
+    print("Welcome to the TodosModos 1.0!")
+    print()
     while True:
         user_action = input("Enter command or 'help': ").strip().lower()
         tokens = user_action.split()
@@ -79,7 +81,7 @@ def main():
                 if check_range(index - 1, len(todos) - 1):
                     previous_todo = todos[index - 1]
                     next_todo = todos[index]
-                    todos.index(todo, previous_todo,)
+                    todos.insert(index, todo)
                     save_todos(todos)
                     print(f"\"{todo}\" inserted between \"{previous_todo.title()}\" and \"{next_todo.title()}\".")
             case 'complete' | 'c':
@@ -101,11 +103,12 @@ def main():
                 """
 Available commands:
 (a)dd todo
-(s)how
-(e)dit todo_number new_todo
 (c)omplete todo_number
+(e)dit todo_number new_todo
 (h)elp: show this menu
+(i)nsert after_todo new_todo
 (q)uit: end this program
+(s)how: show all todo's
                 """)
             case 'quit' | 'q':
                 break
