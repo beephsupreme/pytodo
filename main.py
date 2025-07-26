@@ -21,7 +21,7 @@ def save_todos(todos):
 
 def check_range(index, length):
     if index < 0 or index >= length:
-        print("Index out-of-range. Please try again.")
+        print("\nIndex out-of-range. Please try again.\n")
         return False
     else:
         return True
@@ -37,15 +37,15 @@ def main():
         match command:
             case 'add' | 'a':
                 if len(tokens) < 2:
-                    print("Usage: (a)dd todo#")
+                    print("\nUsage: (a)dd todo#\n")
                     continue
                 todo = " ".join(tokens[1:])
                 todos.append(todo)
                 save_todos(todos)
-                print(f"\"{todo.title()}\" added to the todo list.")
+                print(f"\n\"{todo.title()}\" added to the todo list.\n")
             case 'show' | 's':
                 if len(todos) == 0:
-                    print("The todo list is empty.")
+                    print("\nThe todo list is empty.\n")
                     continue
                 print()
                 for index, todo in enumerate(todos):
@@ -53,27 +53,27 @@ def main():
                 print()
             case 'edit' | 'e':
                 if len(tokens) < 3:
-                    print("Usage: (e)dit todo# new_todo")
+                    print("\nUsage: (e)dit todo# new_todo\n")
                     continue
                 try:
                     index = int(tokens[1])
                 except ValueError:
-                    print("Usage: (e)dit todo# new_todo")
+                    print("\nUsage: (e)dit todo# new_todo\n")
                     continue
                 todo = " ".join(tokens[2:])
                 if check_range(index - 1, len(todos)):
                     old_todo = todos[index - 1]
                     todos[index - 1] = todo
                     save_todos(todos)
-                    print(f"Todo #{index} changed from \"{old_todo.title()}\" to \"{todos[index - 1].title()}\".")
+                    print(f"\nTodo #{index} changed from \"{old_todo.title()}\" to \"{todos[index - 1].title()}\".\n")
             case 'insert' | 'i':
                 if len(tokens) < 3:
-                    print("Usage: (i)nsert after_todo# new_todo")
+                    print("\nUsage: (i)nsert after_todo# new_todo\n")
                     continue
                 try:
                     index = int(tokens[1])
                 except ValueError:
-                    print("Usage: (i)nsert after_todo# new_todo")
+                    print("\nUsage: (i)nsert after_todo# new_todo\n")
                     continue
                 todo = " ".join(tokens[2:])
                 if check_range(index - 1, len(todos) - 1):
@@ -81,21 +81,21 @@ def main():
                     next_todo = todos[index]
                     todos.insert(index, todo)
                     save_todos(todos)
-                    print(f"\"{todo}\" inserted between \"{previous_todo.title()}\" and \"{next_todo.title()}\".")
+                    print(f"\n\"{todo}\" inserted between \"{previous_todo.title()}\" and \"{next_todo.title()}\".\n")
             case 'complete' | 'c':
                 if len(tokens) < 2:
-                    print("Usage: (c)omplete todo#")
+                    print("\nUsage: (c)omplete todo#\n")
                     continue
                 try:
                     index = int(tokens[1])
                 except ValueError:
-                    print("Usage: (c)omplete todo#")
+                    print("\nUsage: (c)omplete todo#\n")
                     continue
                 if check_range(index - 1, len(todos)):
                     todo = todos[index - 1]
                     todos.pop(index - 1)
                     save_todos(todos)
-                    print(f"\"#{index}. {todo.title()}\" has been removed from the ToDo list.")
+                    print(f"\n\"#{index}. {todo.title()}\" has been removed from the ToDo list.\n")
             case 'help' | 'h':
                 print(
                 """
@@ -111,7 +111,7 @@ Available commands:
             case 'quit' | 'q':
                 break
             case _:
-                print("Invalid command. Please try again.")
+                print("\nInvalid command. Please try again.\n")
 
     print("\nGoodbye!\n")
 
