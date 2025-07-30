@@ -135,11 +135,11 @@ def main():
             case 'help' | 'h':
                 display_help()
             case 'quit' | 'q':
-                break
+                print("\nGoodbye!\n")
+                exit(0)
             case _:
                 print("\nInvalid command. Please try again.\n")
 
-    print("\nGoodbye!\n")
 
 if __name__ == "__main__":
     main()
