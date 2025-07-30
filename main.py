@@ -1,9 +1,13 @@
 from modules import functions as fn
-
+import time
 
 def main():
+    now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+    # get current todos (creates new empty list if existing file not found
     todos = fn.initialize()
-    print("\nWelcome to the TodosModos 1.0!\n")
+    print("\nWelcome to the TodosModos 1.0!")
+    print(f"{now}\n")
+
     while True:
         user_action = input("Enter command or 'help': ").strip().lower()
         tokens = user_action.split()
