@@ -3,10 +3,9 @@ import time
 
 def main():
     now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    # get current todos (creates new empty list if existing file not found
-    todos = fn.initialize()
     print("\nWelcome to the TodosModos 1.0!")
     print(f"{now}\n")
+    todos = fn.initialize()
 
     while True:
         user_action = input("Enter command or 'help': ").strip().lower()
@@ -15,7 +14,10 @@ def main():
 
         match command:
             case 'add' | 'a':
-                fn.add(tokens, todos)
+                try:
+                    fn.add(tokens, todos)
+                except ValueError as e:
+                    print(f"Error: {e}")
             case 'show' | 's':
                 fn.display_todos(todos)
             case 'edit' | 'e':
@@ -25,7 +27,7 @@ def main():
             case 'complete' | 'c':
                 fn.complete(tokens, todos)
             case 'help' | 'h':
-                fn.display_help()
+                print(fn.display_help())
             case 'quit' | 'q':
                 print("\nGoodbye!\n")
                 exit(0)
