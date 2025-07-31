@@ -3,4 +3,4 @@ __pycache__/
 .idea/
 .vscode/
 .DS_Store
-todo.json
+data/todos_modos.json

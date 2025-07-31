@@ -1,12 +1,12 @@
 import json
 import os
 
-filepath = "../todo.json"
+filepath = "data/todos_modos.json"
 
-def initialize():
+def initialize(fp = filepath):
     """ if data file exists, load todos, if not create a new empty file """
     todos = []
-    if not os.path.exists(filepath):
+    if not os.path.exists(fp):
         with open(filepath, "w") as f:
             json.dump(todos, f)
     else:
@@ -15,7 +15,7 @@ def initialize():
     return todos
 
 def save_todos(todos):
-    """ save todos in 'todo.json' """
+    """ save todos in 'todos_modos.json' """
     with open(filepath, 'w') as f:
         json.dump(todos, f)
 
