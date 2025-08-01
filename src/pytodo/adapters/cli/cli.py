@@ -1,4 +1,4 @@
-from modules import functions as fn
+from src.pytodo.core import functions as fn
 import time
 
 def main():
@@ -15,15 +15,19 @@ def main():
         match command:
             case 'add' | 'a':
                 try:
-                    fn.add(tokens, todos)
+                    result = fn.add(tokens, todos)
+                    print(f"\n{result}\n")
                 except ValueError as e:
                     print(f"Error: {e}")
             case 'show' | 's':
-                fn.display_todos(todos)
+                result = fn.get_todos(todos)
+                print(f"\n{result}\n")
             case 'edit' | 'e':
-                fn.edit(tokens, todos)
+                result = fn.edit(tokens, todos)
+                print(f"\n{result}\n")
             case 'insert' | 'i':
-                fn.insert(tokens, todos)
+                result = fn.insert(tokens, todos)
+                print(f"\n{result}\n")
             case 'complete' | 'c':
                 fn.complete(tokens, todos)
             case 'help' | 'h':
