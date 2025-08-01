@@ -11,33 +11,44 @@ def main():
         user_action = input("Enter command or 'help': ").strip().lower()
         tokens = user_action.split()
         command = tokens[0]
-
         match command:
             case 'add' | 'a':
                 try:
                     result = fn.add(tokens, todos)
-                    print(f"\n{result}\n")
                 except ValueError as e:
-                    print(f"Error: {e}")
+                    result = f"Error: {e}"
             case 'show' | 's':
-                result = fn.get_todos(todos)
-                print(f"\n{result}\n")
+                td = fn.get_todos(todos)
+                if len(td) == 0:
+                    result = "The todo list is empty."
+                else:
+                    temp = []
+                    for index, todo in enumerate(td):
+                        temp.append(f"{index + 1}. {todo.title()}")
+                    result = "\n".join(temp)
             case 'edit' | 'e':
-                result = fn.edit(tokens, todos)
-                print(f"\n{result}\n")
+                try:
+                    result = fn.edit(tokens, todos)
+                except ValueError as e:
+                    result = f"Error: {e}"
             case 'insert' | 'i':
-                result = fn.insert(tokens, todos)
-                print(f"\n{result}\n")
+                try:
+                    result = fn.insert(tokens, todos)
+                except ValueError as e:
+                    result = f"Error: {e}"
             case 'complete' | 'c':
-                fn.complete(tokens, todos)
+                try:
+                    result = fn.complete(tokens, todos)
+                except ValueError as e:
+                    result = f"Error: {e}"
             case 'help' | 'h':
-                print(fn.display_help())
+                result = "\n".join(fn.display_help())
             case 'quit' | 'q':
-                print("\nGoodbye!\n")
+                result = "Goodbye!"
                 exit(0)
             case _:
-                print("\nInvalid command. Please try again.\n")
-
+                result = "Invalid command. Please try again."
+        print(f"\n{result}\n")
 
 if __name__ == "__main__":
     main()

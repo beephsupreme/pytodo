@@ -11,17 +11,8 @@ def get_store_path(filename: str = "store.json") -> Path:
     return base / filename
 
 FILEPATH = get_store_path()
-
-HELP_TEXT = """
-Available commands:
-(a)dd todo
-(c)omplete todo_number
-(e)dit todo_number new_todo
-(h)elp: show this menu
-(i)nsert after_todo new_todo
-(q)uit: end this program
-(s)how: show all todo's
-"""
+HELP_TEXT = ["(a)dd todo", "(c)omplete todo_number", "(e)dit todo_number new_todo", "(h)elp: show this menu",
+             "(i)nsert after_todo new_todo", "(q)uit: end this program", "(s)how: show all todo's"]
 
 def load_store(path: Path):
     """ if path doesn't exist, return empty list, else load store """
@@ -126,15 +117,10 @@ def complete(tokens, todos) -> str:
     else:
         raise ValueError(f"Todo #{index} not found.")
 
-def get_todos(todos) -> str:
+def get_todos(todos) -> list:
     """ get todos """
-    if len(todos) == 0:
-        return "The todo list is empty."
-    result = []
-    for index, todo in enumerate(todos):
-        result.append(f"{index + 1}. {todo.title()}")
-    return "\n".join(result)
+    return todos
 
-def display_help() -> str:
+def display_help() -> list:
     """ display help """
     return HELP_TEXT
