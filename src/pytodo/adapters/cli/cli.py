@@ -1,11 +1,7 @@
 from src.pytodo.core import functions as fn
-import time
 
 def main():
-    now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    print("\nWelcome to the TodosModos 1.0!")
-    print(f"{now}\n")
-    todos = fn.initialize()
+    print("\nWelcome to the PyTodo 1.0!")
 
     while True:
         user_action = input("Enter command or 'help': ").strip().lower()
@@ -14,35 +10,35 @@ def main():
         match command:
             case 'add' | 'a':
                 try:
-                    result = fn.add(tokens, todos)
+                    result = fn.add(tokens)
                 except ValueError as e:
                     result = f"Error: {e}"
             case 'show' | 's':
-                td = fn.get_todos(todos)
-                if len(td) == 0:
+                todos = fn.load_store()
+                if len(todos) == 0:
                     result = "The todo list is empty."
                 else:
-                    temp = []
-                    for index, todo in enumerate(td):
-                        temp.append(f"{index + 1}. {todo.title()}")
-                    result = "\n".join(temp)
+                    enumerated_todos = [f"{i + 1}. {item}" for i, item in enumerate(todos)]
+                    result = "\n".join(enumerated_todos)
             case 'edit' | 'e':
                 try:
-                    result = fn.edit(tokens, todos)
+                    result = fn.edit(tokens)
                 except ValueError as e:
                     result = f"Error: {e}"
             case 'insert' | 'i':
                 try:
-                    result = fn.insert(tokens, todos)
+                    result = fn.insert(tokens)
                 except ValueError as e:
                     result = f"Error: {e}"
             case 'complete' | 'c':
                 try:
-                    result = fn.complete(tokens, todos)
+                    result = fn.complete(tokens)
                 except ValueError as e:
                     result = f"Error: {e}"
             case 'help' | 'h':
-                result = "\n".join(fn.display_help())
+                todo_help = fn.display_help()
+                enumerated_help = [f"{i + 1}. {item}" for i, item in enumerate(todo_help)]
+                result = "Available commands:\n" + "\n".join(enumerated_help)
             case 'quit' | 'q':
                 result = "Goodbye!"
                 exit(0)
