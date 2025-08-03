@@ -5,7 +5,6 @@ from platformdirs import user_data_dir
 APP_NAME = "pytodo"
 APP_AUTHOR = "rowsey.org"
 
-
 def get_store_path(filename: str = "store.json") -> Path:
     base = Path(user_data_dir(APP_NAME, APP_AUTHOR))
     base.mkdir(parents=True, exist_ok=True)
@@ -67,7 +66,6 @@ def add(todo: str) -> bool:
 
 def edit(index, todo) -> bool:
     """ edit a selected task - return True for success, False for failure """
-    # edit should load data file, replace indicated task, save data file, log errors to log file, report success or failure
     todos = load_store()
     if check_range(index - 1, len(todos)):
         todos[index - 1] = todo
