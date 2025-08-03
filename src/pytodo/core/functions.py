@@ -1,9 +1,10 @@
-import json, os, tempfile
+import json, os, tempfile, logging
 from pathlib import Path
 from platformdirs import user_data_dir
 
 APP_NAME = "pytodo"
 APP_AUTHOR = "rowsey.org"
+
 
 def get_store_path(filename: str = "store.json") -> Path:
     base = Path(user_data_dir(APP_NAME, APP_AUTHOR))
@@ -11,8 +12,15 @@ def get_store_path(filename: str = "store.json") -> Path:
     return base / filename
 
 FILEPATH = get_store_path()
-HELP_TEXT = ["(a)dd todo", "(c)omplete todo_number", "(e)dit todo_number new_todo", "(h)elp: show this menu",
-             "(i)nsert after_todo new_todo", "(q)uit: end this program", "(s)how: show all todo's"]
+LOG = get_store_path(filename="pytodo.log")
+
+logging.basicConfig(filename=LOG,
+                    encoding="utf-8",
+                    filemode='a',
+                    format="{asctime} - {levelname} - {message}",
+                    style="{",
+                    datefmt="%Y-%m-%d %H:%M:%S",
+                    )
 
 def load_store() -> list:
     """ if path doesn't exist, return empty list, else load store """
@@ -46,74 +54,59 @@ def check_range(index, length) -> bool:
     else:
         return True
 
-def add(tokens) -> str:
-    """ add todos - throws ValueError if adding fails """
-    usage = "Usage: (a)dd <todo>"
-    if len(tokens) < 2:
-        raise ValueError(usage)
-    todo = " ".join(tokens[1:])
+def add(todo: str) -> bool:
+    """ add new task to the todos list - return True for success, False for failure """
     todos = load_store()
     todos.append(todo)
-    save_store(todos)
-    return f"\"{todo.capitalize()}\" added to the Todo list"
-
-def edit(tokens) -> str:
-    """ edit todos """
-    usage = "Usage: (e)dit <todo #> <new todo>"
-    if len(tokens) < 3:
-        raise ValueError(usage)
     try:
-        index = int(tokens[1])
-    except ValueError:
-        raise ValueError(usage)
-    todo = " ".join(tokens[2:])
+        save_store(todos)
+        return True
+    except FileNotFoundError:
+        logging.error(f"save_store: File {FILEPATH} not found")
+        return False
+
+def edit(index, todo) -> bool:
+    """ edit a selected task - return True for success, False for failure """
+    # edit should load data file, replace indicated task, save data file, log errors to log file, report success or failure
     todos = load_store()
     if check_range(index - 1, len(todos)):
-        old_todo = todos[index - 1]
         todos[index - 1] = todo
-        save_store(todos)
-        return f"Todo #{index} changed from \"{old_todo.title()}\" to \"{todos[index - 1].title()}\"."
+        try:
+            save_store(todos)
+            return True
+        except FileNotFoundError:
+            logging.error(f"save_store: File {FILEPATH} not found")
+            return False
     else:
-        raise ValueError(f"Todo #{index} not found.")
+        logging.error(f"Todo #{index} not found.")
+        return False
 
-def insert(tokens) -> str:
-    """ insert new todo """
-    usage = "Usage: (i)nsert <after todo #> <new todo>"
-    if len(tokens) < 3:
-        raise ValueError(usage)
-    try:
-        index = int(tokens[1])
-    except ValueError:
-        raise ValueError(usage)
-    todo = " ".join(tokens[2:])
+def insert(index, task) -> bool:
+    """ insert new task - return True for success, False for failure """
     todos = load_store()
     if check_range(index - 1, len(todos) - 1):
-        previous_todo = todos[index - 1]
-        next_todo = todos[index]
-        todos.insert(index, todo)
-        save_store(todos)
-        return f"\"{todo}\" inserted between \"{previous_todo.title()}\" and \"{next_todo.title()}\"."
+        todos.insert(index, task)
+        try:
+            save_store(todos)
+            return True
+        except FileNotFoundError:
+            logging.error(f"save_store: File {FILEPATH} not found")
+            return False
     else:
-        raise ValueError(f"Todo #{index} not found.")
+        logging.error(f"Todo #{index} not found.")
+        return False
 
-def complete(tokens) -> str:
-    """ complete todos """
-    usage = "Usage: (c)omplete <todo #>"
-    if len(tokens) < 2:
-        raise ValueError(usage)
-    try:
-        index = int(tokens[1])
-    except ValueError:
-        raise ValueError(usage)
+def complete(index) -> bool:
+    """ complete todos - return True for success, False for failure """
     todos = load_store()
     if check_range(index - 1, len(todos)):
-        todo = todos[index - 1]
         todos.pop(index - 1)
-        save_store(todos)
-        return f"\"#{index}. {todo.title()}\" has been removed from the ToDo list."
+        try:
+            save_store(todos)
+            return True
+        except FileNotFoundError:
+            logging.error(f"save_store: File {FILEPATH} not found")
+            return False
     else:
-        raise ValueError(f"Todo #{index} not found.")
-
-def display_help() -> list:
-    """ display help """
-    return HELP_TEXT
+        logging.error(f"Todo #{index} not found.")
+        return False
