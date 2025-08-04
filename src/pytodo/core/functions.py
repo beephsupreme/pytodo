@@ -67,8 +67,8 @@ def add(todo: str) -> bool:
 def edit(index, todo) -> bool:
     """ edit a selected task - return True for success, False for failure """
     todos = load_store()
-    if check_range(index - 1, len(todos)):
-        todos[index - 1] = todo
+    if check_range(index, len(todos)):
+        todos[index] = todo
         try:
             save_store(todos)
             return True
@@ -80,9 +80,9 @@ def edit(index, todo) -> bool:
         return False
 
 def insert(index, task) -> bool:
-    """ insert new task - return True for success, False for failure """
+    """ insert new task at index - return True for success, False for failure """
     todos = load_store()
-    if check_range(index - 1, len(todos) - 1):
+    if check_range(index, len(todos) - 1):
         todos.insert(index, task)
         try:
             save_store(todos)
@@ -97,8 +97,8 @@ def insert(index, task) -> bool:
 def complete(index) -> bool:
     """ complete todos - return True for success, False for failure """
     todos = load_store()
-    if check_range(index - 1, len(todos)):
-        todos.pop(index - 1)
+    if check_range(index, len(todos)):
+        todos.pop(index)
         try:
             save_store(todos)
             return True

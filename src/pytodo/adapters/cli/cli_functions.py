@@ -1,7 +1,7 @@
 from src.pytodo.core import functions as fn
 
 HELP_TEXT = ["(a)dd todo", "(c)omplete todo_number", "(e)dit todo_number new_todo", "(h)elp: show this menu",
-             "(i)nsert after_todo new_todo", "(q)uit: end this program", "(s)how: show all todo's"]
+             "(i)nsert before_todo_number new_todo", "(q)uit: end this program", "(s)how: show all todo's"]
 
 def display_result(msg):
     print(f"\n{msg}\n")
@@ -29,7 +29,7 @@ def edit(tokens):
         display_result("(e)dit failed: not enough arguments")
     else:
         try:
-            index = int(tokens[1])
+            index = int(tokens[1]) - 1
             task = " ".join(tokens[2:])
             if fn.edit(index, task):
                 display_result("task edited...")
@@ -43,7 +43,7 @@ def insert(tokens):
         display_result("(i)insert failed: not enough arguments")
     else:
         try:
-            index = int(tokens[1])
+            index = int(tokens[1]) - 1
             task = " ".join(tokens[2:])
             if fn.insert(index, task):
                 display_result("task inserted...")
@@ -57,7 +57,7 @@ def complete(tokens):
         display_result("(c)omplete failed: not enough arguments")
     else:
         try:
-            index = int(tokens[1])
+            index = int(tokens[1]) - 1
             if fn.complete(index):
                 display_result("task completed...")
             else:
