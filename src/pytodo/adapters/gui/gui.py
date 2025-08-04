@@ -11,14 +11,14 @@ def main():
     complete_button = sg.Button("Complete")
     quit_button = sg.Button("Quit")
 
-    window = sg.Window("PyTodo",
-                       layout = [
-                           [label],
-                           [input_box],
-                           [todo_list],
-                           [add_button, edit_button, insert_button, complete_button, quit_button]
-                       ],
+    layout = [ [label],
+               [input_box],
+               [todo_list],
+               [add_button, edit_button, insert_button, complete_button, quit_button]
+             ]
 
+    window = sg.Window("PyTodo",
+                       layout = layout,
                        font = ("Helvetica", 20))
 
     while True:
