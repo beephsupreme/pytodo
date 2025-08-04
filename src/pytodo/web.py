@@ -11,3 +11,5 @@ enumerated_todos = [f"{i + 1}. {item}" for i, item in enumerate(todos)]
 for et in enumerated_todos:
     st.checkbox(et)
 
+st.text_input(label="Enter a todo")
+
