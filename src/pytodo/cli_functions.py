@@ -1,4 +1,4 @@
-from src.pytodo.core import functions as fn
+import functions as fn
 
 HELP_TEXT = ["(a)dd todo", "(c)omplete todo_number", "(e)dit todo_number new_todo", "(h)elp: show this menu",
              "(i)nsert before_todo_number new_todo", "(q)uit: end this program", "(s)how: show all todo's"]

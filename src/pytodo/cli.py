@@ -1,4 +1,4 @@
-from src.pytodo.adapters.cli import cli_functions as cli
+import cli_functions as cli
 
 def main():
     print("\nWelcome to the PyTodo 1.0!")

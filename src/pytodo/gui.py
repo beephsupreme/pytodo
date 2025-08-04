@@ -1,7 +1,9 @@
-import src.pytodo.core.functions as fn
+import functions as fn
 import FreeSimpleGUI as sg
 
 def main():
+    sg.theme("Black")
+
     label = sg.Text("Enter a task")
     input_box = sg.InputText(key="user_input")
     todo_list = sg.Listbox(values=fn.load_store(), key="todo_list", enable_events=True, size=(45, 10))
@@ -19,7 +21,8 @@ def main():
 
     window = sg.Window("PyTodo",
                        layout = layout,
-                       font = ("Helvetica", 20))
+                       font = ("Helvetica", 16))
+
 
     while True:
         event, values = window.read()
@@ -29,19 +32,28 @@ def main():
                 input_box.update('')
                 todo_list.update(fn.load_store())
             case "Edit":
-                index = todo_list.get_indexes()[0]
-                fn.edit(index, values["user_input"])
-                todo_list.update(fn.load_store())
-                input_box.update('')
+                try:
+                    index = todo_list.get_indexes()[0]
+                    fn.edit(index, values["user_input"])
+                    todo_list.update(fn.load_store())
+                    input_box.update('')
+                except IndexError:
+                    sg.popup("Please select a task to edit.")
             case "Insert":
-                index = todo_list.get_indexes()[0]
-                fn.insert(index, values["user_input"])
-                todo_list.update(fn.load_store())
-                input_box.update('')
+                try:
+                    index = todo_list.get_indexes()[0]
+                    fn.insert(index, values["user_input"])
+                    todo_list.update(fn.load_store())
+                    input_box.update('')
+                except IndexError:
+                    sg.popup("Please select where to insert the new task.")
             case "Complete":
-                index = todo_list.get_indexes()[0]
-                fn.complete(index)
-                todo_list.update(fn.load_store())
+                try:
+                    index = todo_list.get_indexes()[0]
+                    fn.complete(index)
+                    todo_list.update(fn.load_store())
+                except IndexError:
+                    sg.popup("Please select a task to complete.")
             case "Quit":
                 break
             case sg.WINDOW_CLOSED:
