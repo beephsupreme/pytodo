@@ -2,5 +2,6 @@ __pycache__/
 .python-version
 .idea/
 .vscode/
+.venv/
 .DS_Store
-data/todos_modos.json
+
